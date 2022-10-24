@@ -1,6 +1,7 @@
 package todolist;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,14 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// tag::hateoas-imports[]
-// end::hateoas-imports[]
-
 @RestController
-class TodoListController {
-
+@RequestMapping("/lists/v1")
+public class TodoListController {
 	private final TodoListRepository repository;
 
 	TodoListController(TodoListRepository repository) {
@@ -30,56 +29,54 @@ class TodoListController {
 	// Aggregate root
 
 	// tag::get-aggregate-root[]
-	@GetMapping("/todolistitems")
-	CollectionModel<EntityModel<TodoListItem>> all() {
+	@GetMapping("/todolists")
+	CollectionModel<EntityModel<TodoList>> all() {
 
-		List<EntityModel<TodoListItem>> todoListItems = repository.findAll().stream()
-				.map(todoListItem -> EntityModel.of(todoListItem,
-						linkTo(methodOn(TodoListController.class).one(todoListItem.getId())).withSelfRel(),
-						linkTo(methodOn(TodoListController.class).all()).withRel("todoListItems")))
+		List<EntityModel<TodoList>> todoLists = repository.findAll().stream()
+				.map(todoList -> EntityModel.of(todoList,
+						linkTo(methodOn(TodoListController.class).one(todoList.getName())).withSelfRel(),
+						linkTo(methodOn(TodoListController.class).all()).withRel("todolists")))
 				.collect(Collectors.toList());
 
-		return CollectionModel.of(todoListItems, linkTo(methodOn(TodoListController.class).all()).withSelfRel());
+		return CollectionModel.of(todoLists, linkTo(methodOn(TodoListController.class).all()).withSelfRel());
 	}
 	// end::get-aggregate-root[]
 
-	@PostMapping("/todolistitems")
-	TodoListItem newTodoListItem(@RequestBody TodoListItem newTodoListItem) {
-		return repository.save(newTodoListItem);
+	@PostMapping("/todolists")
+	TodoList newTodoList(@RequestBody TodoList newTodoList) {
+		return repository.save(newTodoList);
 	}
 
 	// Single item
 
 	// tag::get-single-item[]
-	@GetMapping("/todolistitems/{id}")
-	EntityModel<TodoListItem> one(@PathVariable Long id) {
+	@GetMapping("/todolists/{todoListName}")
+	EntityModel<TodoList> one(@PathVariable String todoListName) {
 
-		TodoListItem todoListItem = repository.findById(id) //
-				.orElseThrow(() -> new TodoListItemNotFoundException(id));
+		TodoList todoList = repository.findByName(todoListName)
+				.orElseThrow(() -> new TodoListNotFoundException(todoListName));
 
-		return EntityModel.of(todoListItem, //
-				linkTo(methodOn(TodoListController.class).one(id)).withSelfRel(),
-				linkTo(methodOn(TodoListController.class).all()).withRel("todoListItems"));
+		return EntityModel.of(todoList,
+				linkTo(methodOn(TodoListController.class).one(todoListName)).withSelfRel(),
+				linkTo(methodOn(TodoListController.class).all()).withRel("todolists"));
 	}
 	// end::get-single-item[]
 
-	@PutMapping("/todolistitems/{id}")
-	TodoListItem replaceTodoListItem(@RequestBody TodoListItem newTodoListItem, @PathVariable Long id) {
-
-		return repository.findById(id) //
-				.map(todoListItem -> {
-					todoListItem.setName(newTodoListItem.getName());
-					todoListItem.setDetails(newTodoListItem.getDetails());
-					return repository.save(todoListItem);
-				}) //
-				.orElseGet(() -> {
-					newTodoListItem.setId(id);
-					return repository.save(newTodoListItem);
-				});
+	@PutMapping("/todolists/{todoListName}")
+	TodoList replaceTodoList(@PathVariable String todoListName, @RequestBody TodoList newTodoList) {
+	
+		return repository.findByName(todoListName)
+				.map(todoList -> {
+					todoList.setName(newTodoList.getName());
+					todoList.setDescription(newTodoList.getDescription());
+					return repository.save(todoList);
+				}).orElseGet(() -> {
+			        return repository.save(newTodoList);
+			      });
 	}
 
-	@DeleteMapping("/todolistitems/{id}")
-	void deleteTodoListItem(@PathVariable Long id) {
-		repository.deleteById(id);
+	@DeleteMapping("/todolists/{todoListName}")
+	void deleteTodoListItem(@PathVariable String todoListName) {
+		repository.deleteByName(todoListName);
 	}
 }

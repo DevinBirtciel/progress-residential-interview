@@ -7,17 +7,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-class TodoListItem {
+public class TodoListItem {
 
 	private @Id @GeneratedValue Long id;
 	private String name;
 	private String details;
+	private String todoListName;
 
-	TodoListItem() {}
+	public TodoListItem() {}
 
-	public TodoListItem(String name, String details) {
+	public TodoListItem(String name, String details, String todoListName) {
 		this.name = name;
 		this.details = details;
+		this.todoListName = todoListName;
 	}
 
 	public Long getId() {
@@ -44,14 +46,23 @@ class TodoListItem {
 		this.details = details;
 	}
 
+	public String getTodoListName() {
+		return todoListName;
+	}
+
+	public void setTodoListName(String todoListName) {
+		this.todoListName = todoListName;
+	}
+
 	@Override
 	public String toString() {
-		return "TodoListItem [id=" + id + ", name=" + name + ", details=" + details + "]";
+		return "TodoListItem [id=" + id + ", name=" + name + ", details=" + details + ", todoListName=" + todoListName
+				+ "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(details, id, name);
+		return Objects.hash(details, id, name, todoListName);
 	}
 
 	@Override
@@ -64,6 +75,6 @@ class TodoListItem {
 			return false;
 		TodoListItem other = (TodoListItem) obj;
 		return Objects.equals(details, other.details) && Objects.equals(id, other.id)
-				&& Objects.equals(name, other.name);
+				&& Objects.equals(name, other.name) && Objects.equals(todoListName, other.todoListName);
 	}
 }

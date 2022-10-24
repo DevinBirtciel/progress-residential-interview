@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-class TodoListItemNotFoundAdvice {
+class TodoListNotFoundAdvice {
 
 	@ResponseBody
-	@ExceptionHandler(TodoListItemNotFoundException.class)
+	@ExceptionHandler(TodoListNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	String todoListItemNotFoundHandler(TodoListItemNotFoundException ex) {
+	String todoListNotFoundHandler(TodoListNotFoundException ex) {
 		return ex.getMessage();
 	}
 }

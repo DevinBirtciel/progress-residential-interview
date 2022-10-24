@@ -1,4 +1,4 @@
-package todolist;
+package todolist.model.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -6,13 +6,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import todolist.model.exceptions.TodoListNotFoundException;
+
 @ControllerAdvice
-class TodoListItemNotFoundAdvice {
+public class TodoListNotFoundAdvice {
 
 	@ResponseBody
-	@ExceptionHandler(TodoListItemNotFoundException.class)
+	@ExceptionHandler(TodoListNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	String todoListItemNotFoundHandler(TodoListItemNotFoundException ex) {
+	String todoListNotFoundHandler(TodoListNotFoundException ex) {
 		return ex.getMessage();
 	}
 }

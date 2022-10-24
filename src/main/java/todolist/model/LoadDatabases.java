@@ -1,4 +1,4 @@
-package todolist;
+package todolist.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,14 +6,20 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import todolist.model.entities.TodoList;
+import todolist.model.entities.TodoListItem;
+import todolist.model.repositories.TodoListItemRepository;
+import todolist.model.repositories.TodoListRepository;
+
+
 @Configuration
-class LoadDatabases {
+public class LoadDatabases {
 
 	private static final Logger log = LoggerFactory.getLogger(LoadDatabases.class);
 	private static final String DEFAULT_LIST_NAME = "Marvelous Masterpieces";
 	
 	@Bean
-	CommandLineRunner initTodoListItemDatabase(TodoListRepository todoListRepository, TodoListItemRepository todoListItemRepository) {
+	public CommandLineRunner initTodoListItemDatabase(TodoListRepository todoListRepository, TodoListItemRepository todoListItemRepository) {
 		TodoList todoList = new TodoList(DEFAULT_LIST_NAME, "A list of Marvel movies");
 		TodoListItem ironMan = new TodoListItem("Iron Man", "directed by Jon Favreau", todoList);
 		TodoListItem thor = new TodoListItem("Thor", "directed by Kenneth Branagh", todoList);

@@ -1,4 +1,4 @@
-package todolist;
+package todolist.controllers;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import todolist.model.entities.TodoList;
+import todolist.model.entities.TodoListItem;
+import todolist.model.exceptions.TodoListNotFoundException;
+import todolist.model.repositories.TodoListRepository;
 
 @RestController
 @RequestMapping("/lists/v1")

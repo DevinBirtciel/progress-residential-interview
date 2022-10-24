@@ -1,18 +1,36 @@
 package todolist;
 
+import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 @Entity
-public class TodoList {
-	private @Id @GeneratedValue Long id;
+public class TodoList implements Serializable{
+	private static final long serialVersionUID = -6056842047378848517L;
+	
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id",nullable=false,unique=true)
+	private Long id;
+	
 	private String name;
 	private String description;
 	
-	public TodoList() {}
+//	@OneToMany(mappedBy = "todoList", cascade = CascadeType.ALL)
+//    private Set<TodoListItem> todoListItems;
+
+	public TodoList() {
+	}
 	
 	public TodoList(String name, String description) {
 		this.name = name;
@@ -42,6 +60,14 @@ public class TodoList {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+//	public Set<TodoListItem> getTodoListItems() {
+//		return todoListItems;
+//	}
+//
+//	public void setTodoListItem(Set<TodoListItem> todoListItem) {
+//		this.todoListItems = todoListItem;
+//	}
 
 	@Override
 	public String toString() {

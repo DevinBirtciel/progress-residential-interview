@@ -4,6 +4,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
@@ -71,5 +72,12 @@ public class TodoListController {
 	@DeleteMapping("/todolists/{todoListName}")
 	public void deleteTodoListItem(@PathVariable String todoListName) {
 		repository.deleteByName(todoListName);
+	}
+	
+	@GetMapping("/todolists/{todoListName}/todolistitems")
+	public Set<TodoListItem> getTodoListItems(@PathVariable String todoListName) {
+		TodoList todoList = repository.findByName(todoListName)
+				.orElseThrow(() -> new TodoListNotFoundException(todoListName));
+		return todoList.getTodoListItems();
 	}
 }

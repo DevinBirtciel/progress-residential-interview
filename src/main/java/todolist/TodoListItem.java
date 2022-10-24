@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,7 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
+@Table(name = "todolistitem")
 public class TodoListItem implements Serializable{
 
 	private static final long serialVersionUID = 7342498686998558846L;
@@ -26,11 +28,13 @@ public class TodoListItem implements Serializable{
 	private String name;
 	private String details;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "todoList_id", nullable = false) 
+	@JsonBackReference
+	@ManyToOne
+    @JoinColumn(name = "todolist_id", nullable = false) 
 	private TodoList todoList;
 	
 	public TodoListItem() {
+		
 	}
 	
 	public TodoListItem(String name, String details, TodoList todoList) {

@@ -40,18 +40,6 @@ public class TodoListItemController {
 		return CollectionModel.of(todoListItems, linkTo(methodOn(TodoListItemController.class).all()).withSelfRel());
 	}
 
-	@GetMapping("/todolists/{todoListName}/todolistitems")
-	public CollectionModel<EntityModel<TodoListItem>> allForTodoList(@PathVariable String todoListName) {
-		TodoList todoList = todoListRepository.findByName(todoListName).get();
-		List<EntityModel<TodoListItem>> todoListItems = todoListItemRepository.findByTodoList(todoList).get();
-		return CollectionModel.of(todoListItems);
-//		List<EntityModel<TodoListItem>> todoListItems = todoListItemRepository.findByTodoList(todoList).stream()
-//				.map(todoListItem -> EntityModel.of(todoListItem,
-//						linkTo(methodOn(TodoListItemController.class).allForTodoList(todoListItem.getTodoList().getName())).withRel("todolistsitems")))
-//				.collect(Collectors.toList());
-//		return CollectionModel.of(todoListItems, linkTo(methodOn(TodoListItemController.class).allForTodoList(todoListName)).withSelfRel());
-	}
-
 	@PostMapping("/todolists/{todoListName}/todolistitems")
 	public TodoListItem newTodoListItem(@RequestBody TodoListItem newTodoListItem, @PathVariable String todoListName) {
 		TodoList todoList = todoListRepository.findByName(todoListName).get();
@@ -90,6 +78,7 @@ public class TodoListItemController {
 	@DeleteMapping("/todolists/{todoListName}/todolistitems/{todoListItemName}")
 	public void deleteTodoListItem(@PathVariable String todoListName, @PathVariable String todoListItemName) {
 		TodoList todoList = todoListRepository.findByName(todoListName).get();
-		todoListItemRepository.deleteByTodoList(todoList);
+		TodoListItem todoListItem = todoListItemRepository.findByTodoListAndName(todoList, todoListItemName).get();
+		todoListItemRepository.delete(todoListItem);
 	}
 }

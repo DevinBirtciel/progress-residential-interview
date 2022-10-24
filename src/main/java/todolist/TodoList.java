@@ -1,20 +1,23 @@
 package todolist;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
 @Entity
+@Table(name = "todolist")
 public class TodoList implements Serializable{
 	private static final long serialVersionUID = -6056842047378848517L;
 	
@@ -26,15 +29,18 @@ public class TodoList implements Serializable{
 	private String name;
 	private String description;
 	
-//	@OneToMany(mappedBy = "todoList", cascade = CascadeType.ALL)
-//    private Set<TodoListItem> todoListItems;
+	@JsonManagedReference
+	@OneToMany(mappedBy = "todoList")
+    private Set<TodoListItem> todoListItems;
 
 	public TodoList() {
+		this.todoListItems = new HashSet<TodoListItem>();
 	}
 	
 	public TodoList(String name, String description) {
 		this.name = name;
 		this.description = description;
+		this.todoListItems = new HashSet<TodoListItem>();
 	}
 
 	public Long getId() {
@@ -61,13 +67,13 @@ public class TodoList implements Serializable{
 		this.description = description;
 	}
 
-//	public Set<TodoListItem> getTodoListItems() {
-//		return todoListItems;
-//	}
-//
-//	public void setTodoListItem(Set<TodoListItem> todoListItem) {
-//		this.todoListItems = todoListItem;
-//	}
+	public Set<TodoListItem> getTodoListItems() {
+		return todoListItems;
+	}
+
+	public void setTodoListItem(Set<TodoListItem> todoListItem) {
+		this.todoListItems = todoListItem;
+	}
 
 	@Override
 	public String toString() {

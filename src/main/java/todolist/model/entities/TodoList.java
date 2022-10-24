@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -26,7 +27,10 @@ public class TodoList implements Serializable{
 	@Column(name="id",nullable=false,unique=true)
 	private Long id;
 	
+	@NotBlank(message = "Name is required")
 	private String name;
+	
+	@NotBlank(message = "Description is required")
 	private String description;
 	
 	@JsonManagedReference

@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,12 +48,12 @@ public class TodoListController {
 	}
 
 	@PostMapping("/todolists")
-	public TodoList newTodoList(@RequestBody TodoList newTodoList) {
+	public TodoList newTodoList(@Valid @RequestBody TodoList newTodoList) {
 		return repository.save(newTodoList);
 	}
 
 	@GetMapping("/todolists/{todoListName}")
-	public EntityModel<TodoList> one(@PathVariable String todoListName) {
+	public EntityModel<TodoList> one(@NotNull @PathVariable String todoListName) {
 
 		TodoList todoList = repository.findByName(todoListName)
 				.orElseThrow(() -> new TodoListNotFoundException(todoListName));
@@ -61,7 +64,7 @@ public class TodoListController {
 	}
 
 	@PutMapping("/todolists/{todoListName}")
-	public TodoList replaceTodoList(@PathVariable String todoListName, @RequestBody TodoList newTodoList) {
+	public TodoList replaceTodoList(@NotNull @PathVariable String todoListName, @Valid @RequestBody TodoList newTodoList) {
 	
 		return repository.findByName(todoListName)
 				.map(todoList -> {
@@ -75,12 +78,12 @@ public class TodoListController {
 
 	@Transactional
 	@DeleteMapping("/todolists/{todoListName}")
-	public void deleteTodoListItem(@PathVariable String todoListName) {
+	public void deleteTodoListItem(@NotNull @PathVariable String todoListName) {
 		repository.deleteByName(todoListName);
 	}
 	
 	@GetMapping("/todolists/{todoListName}/todolistitems")
-	public Set<TodoListItem> getTodoListItems(@PathVariable String todoListName) {
+	public Set<TodoListItem> getTodoListItems(@NotNull @PathVariable String todoListName) {
 		TodoList todoList = repository.findByName(todoListName)
 				.orElseThrow(() -> new TodoListNotFoundException(todoListName));
 		return todoList.getTodoListItems();

@@ -290,6 +290,133 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "PostTodoListBadRequest",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"description\": null}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/lists/v1/todolists/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"lists",
+						"v1",
+						"todolists",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PutTodoListBadRequest",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"description\": null}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/lists/v1/todolists/testbadrequest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"lists",
+						"v1",
+						"todolists",
+						"testbadrequest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostTodoListItemBadRequest",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"details\": null}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/lists/v1/todolists/testbadrequest/todolistitems",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"lists",
+						"v1",
+						"todolists",
+						"testbadrequest",
+						"todolistitems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PutTodoListItemBadRequest",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"details\": null}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/lists/v1/todolists/testbadrequest/todolistitems/testbadrequest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"lists",
+						"v1",
+						"todolists",
+						"testbadrequest",
+						"todolistitems",
+						"testbadrequest"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

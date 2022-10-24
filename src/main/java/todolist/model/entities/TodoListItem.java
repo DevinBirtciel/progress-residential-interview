@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -25,12 +26,14 @@ public class TodoListItem implements Serializable{
 	@Column(name="id",nullable=false,unique=true)
 	private Long id;
 	
+	@NotBlank(message = "Name is required")
 	private String name;
+	@NotBlank(message = "Details are required")
 	private String details;
 	
 	@JsonBackReference
 	@ManyToOne
-    @JoinColumn(name = "todolist_id", nullable = false) 
+    @JoinColumn(name = "todolist_id") 
 	private TodoList todoList;
 	
 	public TodoListItem() {

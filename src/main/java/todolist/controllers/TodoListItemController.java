@@ -5,6 +5,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import todolist.model.entities.TodoList;
 import todolist.model.entities.TodoListItem;
 import todolist.model.exceptions.TodoListItemNotFoundException;
+import todolist.model.exceptions.TodoListNotFoundException;
 import todolist.model.repositories.TodoListItemRepository;
 import todolist.model.repositories.TodoListRepository;
 
@@ -48,16 +52,16 @@ public class TodoListItemController {
 	}
 
 	@PostMapping("/todolists/{todoListName}/todolistitems")
-	public TodoListItem newTodoListItem(@RequestBody TodoListItem newTodoListItem, @PathVariable String todoListName) {
-		TodoList todoList = todoListRepository.findByName(todoListName).get();
+	public TodoListItem newTodoListItem(@Valid @RequestBody TodoListItem newTodoListItem, @NotNull @PathVariable String todoListName) {
+		TodoList todoList = todoListRepository.findByName(todoListName).orElseThrow(() -> new TodoListNotFoundException(todoListName));
 		newTodoListItem.setTodoList(todoList);
 		return todoListItemRepository.save(newTodoListItem);
 	}
 
 
 	@GetMapping("/todolists/{todoListName}/todolistitems/{todoListItemName}")
-	public EntityModel<TodoListItem> one(@PathVariable String todoListName, @PathVariable String todoListItemName) {
-		TodoList todoList = todoListRepository.findByName(todoListName).get();
+	public EntityModel<TodoListItem> one(@NotNull @PathVariable String todoListName, @NotNull @PathVariable String todoListItemName) {
+		TodoList todoList = todoListRepository.findByName(todoListName).orElseThrow(() -> new TodoListNotFoundException(todoListName));
 		TodoListItem todoListItem = todoListItemRepository.findByTodoListAndName(todoList, todoListItemName)
 				.orElseThrow(() -> new TodoListItemNotFoundException(todoListName, todoListItemName));
 		
@@ -67,9 +71,9 @@ public class TodoListItemController {
 	}
 
 	@PutMapping("/todolists/{todoListName}/todolistitems/{todoListItemName}")
-	public TodoListItem replaceTodoListItem(@RequestBody TodoListItem newTodoListItem, @PathVariable String todoListName, @PathVariable String todoListItemName) {
+	public TodoListItem replaceTodoListItem(@Valid @RequestBody TodoListItem newTodoListItem, @NotNull @PathVariable String todoListName, @NotNull @PathVariable String todoListItemName) {
 
-		TodoList todoList = todoListRepository.findByName(todoListName).get();
+		TodoList todoList = todoListRepository.findByName(todoListName).orElseThrow(() -> new TodoListNotFoundException(todoListName));
 		return todoListItemRepository.findByTodoListAndName(todoList, todoListItemName)
 				.map(todoListItem -> {
 					todoListItem.setName(newTodoListItem.getName());
@@ -83,8 +87,8 @@ public class TodoListItemController {
 
 	@Transactional
 	@DeleteMapping("/todolists/{todoListName}/todolistitems/{todoListItemName}")
-	public void deleteTodoListItem(@PathVariable String todoListName, @PathVariable String todoListItemName) {
-		TodoList todoList = todoListRepository.findByName(todoListName).get();
+	public void deleteTodoListItem(@NotNull @PathVariable String todoListName, @NotNull @PathVariable String todoListItemName) {
+		TodoList todoList = todoListRepository.findByName(todoListName).orElseThrow(() -> new TodoListItemNotFoundException(todoListName, todoListItemName));
 		TodoListItem todoListItem = todoListItemRepository.findByTodoListAndName(todoList, todoListItemName).get();
 		todoListItemRepository.delete(todoListItem);
 	}

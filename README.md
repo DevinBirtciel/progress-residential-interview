@@ -34,6 +34,8 @@ Sample Return:
 POST Route: ```/lists/v1/todolists/```
 
 JSON RequestBody containing name and description required
+Returns 400 if either name or details is missing.
+
 Sample Return:
 ```
 {
@@ -69,6 +71,8 @@ Sample Return:
 PUT Route: ```/lists/v1/todolists/{todoListName}```
 
 JSON request body containing name and description required
+Returns 400 if either name or details is missing.
+
 Sample Return:
 ```
 {
@@ -161,6 +165,8 @@ Sample Return:
 POST Route: ```/lists/v1/todolists/{todoListName}/todolistitems```
 
 JSON request body containing name and details required
+Returns 400 if either name or details is missing.
+
 Sample Return:
 ```
 {
@@ -191,6 +197,8 @@ Sample Return:
 PUT Route: ```/lists/v1/todolists/{todoListName}/todolistitems/{todoListItemName}```
 
 JSON request body containing name and details required
+Returns 400 if either name or details is missing.
+
 Sample Return:
 ```
 {

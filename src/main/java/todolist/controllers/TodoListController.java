@@ -28,6 +28,7 @@ import todolist.model.exceptions.TodoListNotFoundException;
 import todolist.model.repositories.TodoListRepository;
 
 @RestController
+@Transactional
 @RequestMapping("/lists/v1")
 public class TodoListController {
 	private final TodoListRepository repository;
@@ -53,14 +54,14 @@ public class TodoListController {
 	}
 
 	@GetMapping("/todolists/{todoListName}")
-	public EntityModel<TodoList> one(@NotNull @PathVariable String todoListName) {
+	public CollectionModel<EntityModel<TodoList>> allByName(@NotNull @PathVariable String todoListName) {
 
-		TodoList todoList = repository.findByName(todoListName)
-				.orElseThrow(() -> new TodoListNotFoundException(todoListName));
+		List<EntityModel<TodoList>> todoLists = repository.findAllByName(todoListName).stream()
+				.map(todoList -> EntityModel.of(todoList,
+						linkTo(methodOn(TodoListController.class).all()).withRel("todolists")))
+				.collect(Collectors.toList());
 
-		return EntityModel.of(todoList,
-				linkTo(methodOn(TodoListController.class).one(todoListName)).withSelfRel(),
-				linkTo(methodOn(TodoListController.class).all()).withRel("todolists"));
+		return CollectionModel.of(todoLists, linkTo(methodOn(TodoListController.class).all()).withSelfRel());
 	}
 
 	@PutMapping("/todolists/{todoListName}")
@@ -75,8 +76,7 @@ public class TodoListController {
 			        return repository.save(newTodoList);
 			      });
 	}
-
-	@Transactional
+	
 	@DeleteMapping("/todolists/{todoListName}")
 	public void deleteTodoListItem(@NotNull @PathVariable String todoListName) {
 		repository.deleteByName(todoListName);

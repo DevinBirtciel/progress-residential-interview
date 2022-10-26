@@ -29,6 +29,7 @@ import todolist.model.repositories.TodoListItemRepository;
 import todolist.model.repositories.TodoListRepository;
 
 @RestController
+@Transactional
 @RequestMapping("/lists/v1")
 public class TodoListItemController {
 
@@ -85,7 +86,6 @@ public class TodoListItemController {
 			      });
 	}
 
-	@Transactional
 	@DeleteMapping("/todolists/{todoListName}/todolistitems/{todoListItemName}")
 	public void deleteTodoListItem(@NotNull @PathVariable String todoListName, @NotNull @PathVariable String todoListItemName) {
 		TodoList todoList = todoListRepository.findByName(todoListName).orElseThrow(() -> new TodoListItemNotFoundException(todoListName, todoListItemName));

@@ -292,13 +292,13 @@
 			"response": []
 		},
 		{
-			"name": "PostTodoListBadRequest",
+			"name": "PostTodoListBadRequestMissingName",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"description\": null}",
+					"raw": "{\"name\": null, \"description\": \"description\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -323,13 +323,13 @@
 			"response": []
 		},
 		{
-			"name": "PutTodoListBadRequest",
+			"name": "PostTodoListBadRequestMissingDescription",
 			"request": {
-				"method": "PUT",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"description\": null}",
+					"raw": "{\"name\": \"name\", \"description\": null}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -337,7 +337,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/lists/v1/todolists/testbadrequest",
+					"raw": "http://localhost:8080/lists/v1/todolists/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -347,20 +347,20 @@
 						"lists",
 						"v1",
 						"todolists",
-						"testbadrequest"
+						""
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "PostTodoListItemBadRequest",
+			"name": "PutTodoListBadRequestMissingName",
 			"request": {
-				"method": "POST",
+				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"details\": null}",
+					"raw": "{\"name\": null, \"description\": \"description\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -368,7 +368,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/lists/v1/todolists/testbadrequest/todolistitems",
+					"raw": "http://localhost:8080/lists/v1/todolists/Marvelous Masterpieces",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -378,7 +378,69 @@
 						"lists",
 						"v1",
 						"todolists",
-						"testbadrequest",
+						"Marvelous Masterpieces"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PutTodoListBadRequestMissingDescription",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"name\", \"description\": null}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/lists/v1/todolists/Marvelous Masterpieces",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"lists",
+						"v1",
+						"todolists",
+						"Marvelous Masterpieces"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostTodoListItemBadRequestMissingName",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": null, \"details\": \"details\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/lists/v1/todolists/Marvelous Masterpieces/todolistitems",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"lists",
+						"v1",
+						"todolists",
+						"Marvelous Masterpieces",
 						"todolistitems"
 					]
 				}
@@ -386,13 +448,13 @@
 			"response": []
 		},
 		{
-			"name": "PutTodoListItemBadRequest",
+			"name": "PostTodoListItemBadRequestMissingDetails",
 			"request": {
-				"method": "PUT",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"details\": null}",
+					"raw": "{\"name\": \"name\", \"details\": null}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -400,7 +462,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/lists/v1/todolists/testbadrequest/todolistitems/testbadrequest",
+					"raw": "http://localhost:8080/lists/v1/todolists/Marvelous Masterpieces/todolistitems",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -410,7 +472,72 @@
 						"lists",
 						"v1",
 						"todolists",
-						"testbadrequest",
+						"Marvelous Masterpieces",
+						"todolistitems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PutTodoListItemBadRequestMissingName",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": null,\"details\": \"details\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/lists/v1/todolists/Marvelous Masterpieces/todolistitems/testbadrequest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"lists",
+						"v1",
+						"todolists",
+						"Marvelous Masterpieces",
+						"todolistitems",
+						"testbadrequest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PutTodoListItemBadRequestMissingDetails",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"name\",\"details\": null}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/lists/v1/todolists/Marvelous Masterpieces/todolistitems/testbadrequest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"lists",
+						"v1",
+						"todolists",
+						"Marvelous Masterpieces",
 						"todolistitems",
 						"testbadrequest"
 					]

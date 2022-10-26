@@ -5,7 +5,7 @@ The API is focused around two entities which are TodoLists and TodoListItems.
 
 ## Setup
 
-The setup for running this repository should just be pulling down the git repository,
+The setup for running this repository consists of pulling down the git repository,
 importing/building the project, and then running the Spring Boot Application.
 
 ```
